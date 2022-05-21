@@ -6,45 +6,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formato raro</title>
-
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="margin-top: 4%;">
     <div class="container">
         <h2>Formato raro</h2>
         <form class="form-horizontal" action="/action_page.php">
             <div class="form-group">
-                <label class="control-label col-sm-2" for="autores">Autor(es):</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="autores"
+                <label class="control-label col-sm-2" for="autores">Autor(es):<small
+                        style="color:red ;">*</small></label>
+                <div class="col-sm-10" style="margin-bottom: 1%;">
+                    <input required type="text" class="form-control" id="autores"
                         placeholder="Ejemplo: Rodriguez Cano, Mejia Gallegos, Google, Wikipedia" name="autores">
                     <small style="color: red;">* Separa los autores con comas.</small>
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="titulo">Titulo de la página:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="titulo"
+                <label class="control-label col-sm-2" for="titulo">Titulo de la página:<small
+                        style="color:red ;">*</small></label>
+                <div class="col-sm-10" style="margin-bottom: 1%;">
+                    <input required type="text" class="form-control" id="titulo"
                         placeholder="Ejemplo: ¿Cómo entender a mi hijo adolescente?" name="titulo">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="nombrePagina">Nombre de la página:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nombrePagina" placeholder="Ejemplo: Scielo"
+                <label class="control-label col-sm-2" for="nombrePagina">Nombre de la página:<small
+                        style="color:red ;">*</small></label>
+                <div class="col-sm-10" style="margin-bottom: 1%;">
+                    <input required type="text" class="form-control" id="nombrePagina" placeholder="Ejemplo: Scielo"
                         name="nombrePagina">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="link">Link:</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="link"
+                <label class="control-label col-sm-2" for="link">Link:<small style="color:red ;">*</small></label>
+                <div class="col-sm-10" style="margin-bottom: 1%;">
+                    <input required type="text" class="form-control" id="link"
                         placeholder="Ejemplo: https://www.fundacionadana.org/definicion-tdah/" name="link">
                 </div>
             </div>
@@ -54,14 +56,18 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="button" class="btn btn-success" onclick="formato()">Generar formato raro</button>
+                    <button type="button" class="btn btn-danger" onclick="limpiar()" style="float: right;">Limpiar
+                        datos</button>
                 </div>
             </div>
+
             <br>
 
         </form>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <p id="citaCompleta"></p>
+        <div style="display: none;" class="form-group" id="resultado">
+            <label class="control-label col-sm-2" for="link">Resultado:</label>
+            <div class="col-sm-10">
+                <textarea rows="4" style="resize: none;" class="form-control" id="citaCompleta"></textarea>
             </div>
         </div>
     </div>
@@ -74,6 +80,9 @@
     </script>
 
 <script>
+    function limpiar() {
+        location.reload();
+    }
     function formato() {
 
         var autores = document.getElementById("autores").value;
@@ -83,6 +92,14 @@
 
         const fecha = new Date();
         const mes = fecha.getMonth() + 1;
+
+        if (autores == "" || titulo == "" || nombrePagina == "" || link == "") {
+            alert("Alguno de los campos está vacío. Reintente.")
+            document.getElementById("resultado").style.display = "none";
+            return;
+        }
+
+
 
         switch (mes) {
             case 1:
@@ -125,7 +142,7 @@
         cita = autores + ", " + titulo + ", " + nombrePagina + ", en " + link + " [consultado " + nombreMes + " " + fecha.getFullYear() + "]."
 
         document.getElementById("citaCompleta").innerHTML = cita;
-
+        document.getElementById("resultado").style.display = "block";
         return cita;
     }	
 </script>
